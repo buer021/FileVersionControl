@@ -1,0 +1,31 @@
+﻿<Window x:Class="FileVersion.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="文件拖拽" Height="100" Width="75" Topmost="True" AllowsTransparency="True" WindowStyle="None" ResizeMode="NoResize" 
+        OpacityMask="White" Drop="Window_Drop" AllowDrop="True" WindowStartupLocation="Manual" ShowInTaskbar="False" 
+        DragEnter="Window_DragEnter" DragLeave="Window_DragLeave" DragDrop.Drop="Window_DragLeave">
+    <Window.Resources>
+        <ContextMenu x:Key="ContextMenu" Name="MenuItem">
+            <ContextMenu.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Text}"/>
+                </DataTemplate>
+            </ContextMenu.ItemTemplate>
+            <ContextMenu.ItemContainerStyle>
+                <Style TargetType="MenuItem">
+                    <EventSetter Event="Click" Handler="MenuItem_Click_2"></EventSetter>
+                </Style>
+            </ContextMenu.ItemContainerStyle>
+        </ContextMenu>
+    </Window.Resources>
+    <Border BorderThickness="2" BorderBrush="LightGreen" ContextMenu="{ DynamicResource ContextMenu}">
+        <Grid>
+            <Image Name="img" Width="75" Height="100" Source="logo.png" MouseLeftButtonDown="Image_MouseLeftButtonDown"/>
+            <Image HorizontalAlignment="Left" Margin="18,28,18,28" VerticalAlignment="Top" Width="35" Height="35" Name="mex" Visibility="Hidden" Source="ok.png"/>
+            <Image HorizontalAlignment="Left" Height="35" Margin="18,28,18,28" VerticalAlignment="Top" Width="35" Name="xex" Visibility="Hidden" Source="er.png"/>
+        </Grid>
+    </Border>
+</Window>

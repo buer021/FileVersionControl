@@ -1,0 +1,18 @@
+﻿<Window x:Class="FileVersion.FileAsk"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Input" Height="130" Width="300" AllowsTransparency="True" 
+        WindowStyle="None" ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
+        Background="DimGray" ShowInTaskbar="False" Topmost="True">
+    <Grid>
+        <TextBlock x:Name="Filemsg" TextWrapping="Wrap" Text="" TextAlignment="Center" Margin="0,25,0,60" FontSize="12"/>
+        <TextBlock x:Name="tmsg" TextWrapping="Wrap" Text="请选择本文件更新内容" TextAlignment="Center" Margin="0,6,0,100" FontSize="16"/>
+        <Button Content="主版本（+100）" HorizontalAlignment="Left" Margin="0,72,0,0" VerticalAlignment="Top" Width="100" Height="30" Click="F_Click"/>
+        <Button Content="次版本（+10）" HorizontalAlignment="Left" Margin="100,72,0,0" VerticalAlignment="Top" Width="100" Height="30" Click="S_Click"/>
+        <Button Content="修订版（+1）" Name="revision" HorizontalAlignment="Left" Margin="200,72,0,0" VerticalAlignment="Top" Width="100" Height="30" Click="L_Click"/>
+        <Button Content="取消" HorizontalAlignment="Left" Margin="100,100,0,0" VerticalAlignment="Top" Width="100" Height="30" Click="C_Click" />
+    </Grid>
+</Window>

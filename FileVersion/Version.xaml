@@ -1,0 +1,55 @@
+﻿<Window x:Class="FileVersion.Version"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="文件管理窗口" Height="450" Width="800" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+    <Window.Resources>
+        <Style x:Key="ListViewItemStyle" TargetType="{x:Type ListViewItem}">
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid HorizontalAlignment="Left" Height="410" VerticalAlignment="Top" Width="790">
+        <ListView x:Name="FileName" HorizontalAlignment="Left" Height="350" VerticalAlignment="Top" Width="315" 
+                  SelectionChanged="FileName_SelectionChanged" Margin="5,60,0,0" >
+             <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="文件名" Width="auto" DisplayMemberBinding="{Binding fileName}"/>
+                </GridView>
+            </ListView.View>
+            <ListView.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="重命名" Click="Button_Click_5"/>
+                </ContextMenu>
+            </ListView.ContextMenu>
+        </ListView>
+        <ListView Name="FileList" ItemContainerStyle="{DynamicResource ListViewItemStyle}" GridViewColumnHeader.Click="Header_Click" 
+                  HorizontalAlignment="Left" Height="350" Margin="320,60,0,0" VerticalAlignment="Top" Width="470" ItemStringFormat=""
+                  MouseDoubleClick="FileList_MouseDoubleClick" AllowDrop="True" Drop="FileList_Drop" >
+            <ListView.View>
+                <GridView x:Name="gid">
+                    <GridViewColumn Header="日期" Width="200" DisplayMemberBinding="{Binding fileDate}"/>
+                    <GridViewColumn Header="文件大小（KB）"  Width="100" DisplayMemberBinding="{Binding fileSize}"/>
+                    <GridViewColumn Header="版本" Width="160" DisplayMemberBinding="{Binding fileVersion}"/>
+                </GridView>
+            </ListView.View>
+            <ListView.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="复制到剪贴板" Click="MenuItem_Click"/>
+                    <MenuItem Header="打开" Click="Open_MouseDoubleClick"/>
+                    <MenuItem Header="删除" Click="Button_Click"/>
+                </ContextMenu>
+            </ListView.ContextMenu>
+        </ListView>
+        <Button Content="帮助&#xD;&#xA;关于" Name="about" HorizontalAlignment="Left" Margin="15,8,0,0" VerticalAlignment="Top" Width="45" Height="45" Click="Button_Click_4"/>
+        <Button Content="追踪&#xD;&#xA;模式" Name="pack" HorizontalAlignment="Left" Margin="85,8,0,0" VerticalAlignment="Top" Width="45" Height="45" Click="Button_Click_3"/>
+        <Button Content="打开&#xD;&#xA;目录" Name="open" HorizontalAlignment="Left" Margin="155,8,0,0" VerticalAlignment="Top" Width="45" Height="45" Click="Button_Click_2"/>
+        <Button Content="删除&#xD;&#xA;版本" Name="del" HorizontalAlignment="Left" Margin="225,8,0,0" VerticalAlignment="Top" Width="45" Height="45" Click="Button_Click"/>
+        <Button Content="另存&#xD;&#xA;为新" Name="save" HorizontalAlignment="Left" Margin="295,8,0,0" VerticalAlignment="Top" Width="45" Height="45" Click="Button_Click_1" />
+        <Button Content="重新&#xD;&#xA;命名" Name="rename" HorizontalAlignment="Left" Margin="365,8,0,0" VerticalAlignment="Top" Width="45" Height="45" Click="Button_Click_5"/>
+        <Button Content="刷新&#xD;&#xA;页面" Name="refr" HorizontalAlignment="Left" Margin="435,8,0,0" VerticalAlignment="Top" Width="45" Height="45" Click="Rfs_Click"/>
+        <Label Content="" Name="msg" HorizontalAlignment="Left" Margin="505,8,0,0" VerticalAlignment="Top" Width="280" Height="45"/>
+    </Grid>
+</Window>
