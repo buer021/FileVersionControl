@@ -23,7 +23,7 @@
     </Window.Resources>
     <Border BorderThickness="2" BorderBrush="LightGreen" ContextMenu="{ DynamicResource ContextMenu}">
         <Grid>
-            <Image Name="img" Width="75" Height="100" Source="logo.png" MouseLeftButtonDown="Image_MouseLeftButtonDown"/>
+            <Image Name="img" Width="75" Height="100" Source="logo.png" MouseLeftButtonDown="Image_MouseLeftButtonDown" Margin="-2,0,-2,-4"/>
             <Image HorizontalAlignment="Left" Margin="18,28,18,28" VerticalAlignment="Top" Width="35" Height="35" Name="mex" Visibility="Hidden" Source="ok.png"/>
             <Image HorizontalAlignment="Left" Height="35" Margin="18,28,18,28" VerticalAlignment="Top" Width="35" Name="xex" Visibility="Hidden" Source="er.png"/>
         </Grid>

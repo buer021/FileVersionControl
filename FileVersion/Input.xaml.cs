@@ -13,6 +13,7 @@ namespace FileVersion
             InitializeComponent();
             tmsg.Text = v;
             tmsg.Focus();
+            tmsg.SelectionStart = tmsg.Text.Length;
         }
         private void OKButton_Click(object sender, RoutedEventArgs e)
         {

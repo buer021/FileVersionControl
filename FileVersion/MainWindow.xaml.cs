@@ -21,7 +21,9 @@ namespace FileVersion
                     "使用说明：" + "\n" +
                     "1，拖入文件到桌面图标自动备份；" + "\n" +
                     "2，尝试鼠标左、右键点击任一“Potato Inside”图标交互；" + "\n" +
-                    "3，按住Alt键，拖动本软件可创建快捷方式。", "感谢使用文件多版本管理器！本软件遵循GPL协议。Potato Inside",MessageBoxButton.OK,MessageBoxImage.Information);
+                    "3，按住Alt键，拖动本软件可创建快捷方式。" +
+                    "4，本软件小窗口拖入：自动按时间标记版本号" +
+                    "5，管理器窗口拖入：手动标记版本号", "感谢使用文件多版本管理器！本软件遵循GPL协议。Potato Inside",MessageBoxButton.OK,MessageBoxImage.Information);
                 try
                 {
                     Directory.CreateDirectory(App.workPath);
@@ -66,7 +68,7 @@ namespace FileVersion
                     "是否存在其它的”{第“和”版}“，如有请删除再打开软件即可。" ,"严重错误！",MessageBoxButton.OKCancel,MessageBoxImage.Error);
             }
         }
-        private static int ReadVersion(string name)//读取输入文件的最新版本
+        private static int ReadVersion(string name)//读取输入文件的最新版本，返回版本号
         {
             DirectoryInfo di = new DirectoryInfo(App.workPath);
             List<int> version = new List<int>();
@@ -86,37 +88,71 @@ namespace FileVersion
                 }
             }
             version.Sort((x, y) => -x.CompareTo(y));
-            return version.Count == 0 ? 100 : version[0];
+            return version.Count == 0 ? 99: version[0];
         }
-        public static void ReName(string xpath,string New_name,bool re,int i=1)//给定文件名，传入新版本
+        public static void ReName(string xpath,string New_name,bool re)//给定文件名，传入新版本
         {
             FileInfo di = new FileInfo(xpath);
             int index = xpath.LastIndexOf('\\');
             string fname = xpath.Substring(index + 1);//获取输入的完整文件名
-            int newVersion = ReadVersion(re ? fname : New_name)+i;//子项版本号已经自增，如果是首页则输入则查输入名字，反则查选中名字
-            di.CopyTo(re? App.workPath + "\\" + fname.Substring(0, fname.LastIndexOf(".")) + App.sex + newVersion + App.eex + fname.Substring(fname.LastIndexOf(".")):App.workPath + "\\" + New_name.Substring(0, New_name.LastIndexOf(".")) + App.sex + newVersion + App.eex + New_name.Substring(New_name.LastIndexOf(".")));//重命名
+
+            int newVersion = ReadVersion(re ? fname : New_name);//如果是首页则输入则查输入名字，反则查选中名字
+            if (newVersion == 99)
+            {
+                di.CopyTo(App.workPath + "\\" + fname.Substring(0, fname.LastIndexOf(".")) +
+                App.sex + "100" + App.eex + fname.Substring(fname.LastIndexOf(".")));
+            }
+            else
+            {
+                DateTime newTime = new FileInfo(xpath).LastWriteTime;
+                string oldxpath = App.workPath + "\\"+ fname.Substring(0, fname.LastIndexOf(".")) +
+                    App.sex + newVersion + App.eex + fname.Substring(fname.LastIndexOf("."));
+                DateTime oldTime = new FileInfo(oldxpath).LastWriteTime;
+                TimeSpan diff = newTime - oldTime;
+                if (diff.TotalHours <= 24)
+                {
+                    di.CopyTo(re ? App.workPath + "\\" + fname.Substring(0, fname.LastIndexOf(".")) +
+                        App.sex + (newVersion+1).ToString() + App.eex + fname.Substring(fname.LastIndexOf(".")) :
+                        App.workPath + "\\" + New_name.Substring(0, New_name.LastIndexOf(".")) +
+                        App.sex + (newVersion + 1).ToString() + App.eex + New_name.Substring(New_name.LastIndexOf(".")));//重命名
+                }
+                if (diff.TotalHours > 24 && diff.TotalHours <= 48)
+                {
+                    di.CopyTo(re ? App.workPath + "\\" + fname.Substring(0, fname.LastIndexOf(".")) +
+                         App.sex + (newVersion + 10).ToString() + App.eex + fname.Substring(fname.LastIndexOf(".")) :
+                         App.workPath + "\\" + New_name.Substring(0, New_name.LastIndexOf(".")) +
+                         App.sex + (newVersion + 10).ToString() + App.eex + New_name.Substring(New_name.LastIndexOf(".")));//重命名
+                }
+                if (48 < diff.TotalHours&&diff.TotalHours<72)
+                {
+                    di.CopyTo(re ? App.workPath + "\\" + fname.Substring(0, fname.LastIndexOf(".")) +
+                         App.sex + (newVersion + 100).ToString() + App.eex + fname.Substring(fname.LastIndexOf(".")) :
+                         App.workPath + "\\" + New_name.Substring(0, New_name.LastIndexOf(".")) +
+                         App.sex + (newVersion + 100).ToString() + App.eex + New_name.Substring(New_name.LastIndexOf(".")));//重命名
+                }
+                if (72 < diff.TotalHours)
+                {
+                    di.CopyTo(re ? App.workPath + "\\" + fname.Substring(0, fname.LastIndexOf(".")) +
+                         App.sex + (newVersion + 1000).ToString() + App.eex + fname.Substring(fname.LastIndexOf(".")) :
+                         App.workPath + "\\" + New_name.Substring(0, New_name.LastIndexOf(".")) +
+                         App.sex + (newVersion + 1000).ToString() + App.eex + New_name.Substring(New_name.LastIndexOf(".")));//重命名
+                }
+            }
+        }
+        public static void OP_ReName(string xpath, string New_name, bool re, int i = 1)//给定文件名，传入新版本
+        {
+            FileInfo di = new FileInfo(xpath);
+            int index = xpath.LastIndexOf('\\');
+            string fname = xpath.Substring(index + 1);//获取输入的完整文件名
+            int newVersion = ReadVersion(re ? fname : New_name) + i;//子项版本号已经自增，如果是首页则输入则查输入名字，反则查选中名字
+            di.CopyTo(re ? App.workPath + "\\" + fname.Substring(0, fname.LastIndexOf(".")) + App.sex + newVersion + App.eex + fname.Substring(fname.LastIndexOf(".")) : App.workPath + "\\" + New_name.Substring(0, New_name.LastIndexOf(".")) + App.sex + newVersion + App.eex + New_name.Substring(New_name.LastIndexOf(".")));//重命名
         }
         public void Window_Drop(object sender, DragEventArgs e)
         {
             try
             {
                 string fileNam = ((Array)e.Data.GetData(DataFormats.FileDrop)).GetValue(0).ToString();
-                FileAsk fileAsk = new FileAsk(fileNam);
-                if (fileAsk.ShowDialog() == true)
-                {
-                    if (fileAsk.Fmsg==100)
-                    {
-                        ReName(fileNam,"", true, 100);
-                    }
-                    if (fileAsk.Fmsg == 10)
-                    {
-                        ReName(fileNam, "", true, 10);
-                    }
-                    if (fileAsk.Fmsg == 1)
-                    {
-                        ReName(fileNam, "", true, 1);
-                    }
-                }
+                ReName(fileNam,"",true);
             }
             catch(Exception r)
             {

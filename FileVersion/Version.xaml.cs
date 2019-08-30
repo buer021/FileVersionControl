@@ -39,7 +39,7 @@ namespace FileVersion
         {
             public string fileFullName { set; get; }
             public string fileEx { set; get; }
-            public string fileDate { set; get; }
+            public DateTime fileDate { set; get; }
             public long fileSize { set; get; }
             public int fileVersion { set; get; }
         }
@@ -92,7 +92,7 @@ namespace FileVersion
                             {
                                 fileFullName = items.FullName,
                                 fileEx=items.Extension,
-                                fileDate = items.LastWriteTime.ToString(),
+                                fileDate = items.LastWriteTime,
                                 fileSize = items.Length / 1024,
                                 fileVersion = s == "" ? 100 : int.Parse(s.Replace(App.sex, "").Replace(App.eex, ""))//3
                             };
@@ -306,17 +306,17 @@ namespace FileVersion
                         {
                             if (fileAsk.Fmsg == 100)
                             {
-                                MainWindow.ReName(fileNam, nameClass.fileName, false, 100);
+                                MainWindow.OP_ReName(fileNam, nameClass.fileName, false,100);
                                 Rfs_Click(null, null);
                             }
                             if (fileAsk.Fmsg == 10)
                             {
-                                MainWindow.ReName(fileNam, nameClass.fileName, false, 10);
+                                MainWindow.OP_ReName(fileNam, nameClass.fileName, false,10);
                                 Rfs_Click(null, null);
                             }
                             if (fileAsk.Fmsg == 1)
                             {
-                                MainWindow.ReName(fileNam, nameClass.fileName, false, 1);
+                                MainWindow.OP_ReName(fileNam, nameClass.fileName, false,1);
                                 Rfs_Click(null, null);
                             }
                         }
@@ -378,6 +378,38 @@ namespace FileVersion
         private void Open_MouseDoubleClick(object sender, RoutedEventArgs e)
         {
             FileList_MouseDoubleClick(null,null);
+        }
+
+        private void OP_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                ListClass listClass1 = FileList.SelectedItem as ListClass;
+                Input input = new Input(listClass1.fileVersion.ToString());
+                if (input.ShowDialog() == true)
+                {
+                    string order = input.Tmsg;
+                    if (listClass1.fileVersion.ToString() == order) return;
+                    if (order.Contains("{") || order.Contains("}")|| order == null || order == "")
+                    {
+                        System.Windows.MessageBox.Show("不符合版本规则，请重新命名！");
+                        return;
+                    };
+                    if (Convert.ToInt32(order)>100)
+                    {
+                        string fn = listClass1.fileFullName;
+                        string fn1 = fn.Substring(fn.LastIndexOf("\\")).Replace(listClass1.fileVersion.ToString(),order);
+                        string newfn = App.workPath + fn1;
+                        File.Move(fn, newfn);
+                    }
+                    Rfs_Click(null, null);
+                }
+            }
+            catch (Exception r)
+            {
+                System.Windows.MessageBox.Show("失败" + "\n" +
+                    "未选中或未知错误，请尝试重启软件。" + r.ToString(), "手动标记");
+            }
         }
     }
 }

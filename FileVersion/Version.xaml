@@ -5,16 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         Title="文件管理窗口" Height="450" Width="800" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
-    <Window.Resources>
-        <Style x:Key="ListViewItemStyle" TargetType="{x:Type ListViewItem}">
-            <Setter Property="HorizontalContentAlignment" Value="Center"/>
-        </Style>
-    </Window.Resources>
-
     <Grid HorizontalAlignment="Left" Height="410" VerticalAlignment="Top" Width="790">
         <ListView x:Name="FileName" HorizontalAlignment="Left" Height="350" VerticalAlignment="Top" Width="315" 
                   SelectionChanged="FileName_SelectionChanged" Margin="5,60,0,0" >
-             <ListView.View>
+            <ListView.View>
                 <GridView>
                     <GridViewColumn Header="文件名" Width="auto" DisplayMemberBinding="{Binding fileName}"/>
                 </GridView>
@@ -25,7 +19,7 @@
                 </ContextMenu>
             </ListView.ContextMenu>
         </ListView>
-        <ListView Name="FileList" ItemContainerStyle="{DynamicResource ListViewItemStyle}" GridViewColumnHeader.Click="Header_Click" 
+        <ListView Name="FileList" GridViewColumnHeader.Click="Header_Click" 
                   HorizontalAlignment="Left" Height="350" Margin="320,60,0,0" VerticalAlignment="Top" Width="470" ItemStringFormat=""
                   MouseDoubleClick="FileList_MouseDoubleClick" AllowDrop="True" Drop="FileList_Drop" >
             <ListView.View>
@@ -49,7 +43,8 @@
         <Button Content="删除&#xD;&#xA;版本" Name="del" HorizontalAlignment="Left" Margin="225,8,0,0" VerticalAlignment="Top" Width="45" Height="45" Click="Button_Click"/>
         <Button Content="另存&#xD;&#xA;为新" Name="save" HorizontalAlignment="Left" Margin="295,8,0,0" VerticalAlignment="Top" Width="45" Height="45" Click="Button_Click_1" />
         <Button Content="重新&#xD;&#xA;命名" Name="rename" HorizontalAlignment="Left" Margin="365,8,0,0" VerticalAlignment="Top" Width="45" Height="45" Click="Button_Click_5"/>
-        <Button Content="刷新&#xD;&#xA;页面" Name="refr" HorizontalAlignment="Left" Margin="435,8,0,0" VerticalAlignment="Top" Width="45" Height="45" Click="Rfs_Click"/>
-        <Label Content="" Name="msg" HorizontalAlignment="Left" Margin="505,8,0,0" VerticalAlignment="Top" Width="280" Height="45"/>
+        <Button Content="刷新&#xD;&#xA;页面" Name="refr" HorizontalAlignment="Left" Margin="505,8,0,0" VerticalAlignment="Top" Width="45" Height="45" Click="Rfs_Click"/>
+        <Label Content="" Name="msg" HorizontalAlignment="Left" Margin="600,8,0,0" VerticalAlignment="Top" Width="185" Height="45"/>
+        <Button Content="手动&#xA;标记" x:Name="refr_Copy" HorizontalAlignment="Left" Margin="435,8,0,0" VerticalAlignment="Top" Width="45" Height="45" Click="OP_Click"/>
     </Grid>
 </Window>
